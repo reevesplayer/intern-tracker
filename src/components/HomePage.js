@@ -2,13 +2,12 @@ import React from 'react';
 
 const HomePage = () => {
   return (
-    <div>
+    <div className='homePage bg-grey text-slate-50 text-center text-2xl'>
       <header>
-        <h1>My Simple React Home Page</h1>
+        <h1>Intern Application Tracker</h1>
       </header>
       <main>
-        <p>Welcome to my simple React home page! This is a basic example of a React project.</p>
-        <img src="https://via.placeholder.com/300" alt="Placeholder" />
+        <p>Using this web application, you can track your current internship job applications and edit thair status accordingly.</p>
       </main>
     </div>
   );

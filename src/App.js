@@ -6,7 +6,6 @@ function App() {
     <div>
       <NavBar />
       <HomePage />
-      <h1>Intern Tracker</h1>
     </div>
     
   );
