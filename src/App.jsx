@@ -1,10 +1,11 @@
 import HomePage from './components/HomePage';
-import NavBar from './components/NavBar';
+import NavBar, { StickyNavbar } from './components/NavBar';
+
 
 function App() {
   return (
     <div>
-      <NavBar />
+      <StickyNavbar />
       <HomePage />
     </div>
     
