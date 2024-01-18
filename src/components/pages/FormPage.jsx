@@ -60,12 +60,17 @@ function FormPage() {
                 <h1>ADD JOB</h1>
             </div>
             <div>
-                <form onSubmit={submitHandler}>
-                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                    <Input type="email" label="Email" />
-                    <Input type="email" label="Email" placeholder="Enter your email" />
-                </div>
-                </form>
+            <form>
+            <div className="flex w-8/12 flex-wrap md:flex-nowrap gap-4">
+                <Input onChange={jobTitleHandler} type="text" label="Job Title" placeholder="Enter the job title" />
+                <Input onChange={jobCompanyHandler} type="text" label="Job Company" placeholder="Enter the company name" />
+                <Input onChange={jobStatusHandler} type="text" label="Status" placeholder="Accepted, Interview, Rejected" />
+                <Button onClick={submitHandler} color="primary">
+                SUBMIT
+                </Button>
+            </div>
+            </form>
+
             </div>
         </div>
     );
