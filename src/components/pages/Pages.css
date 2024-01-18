@@ -1,0 +1,24 @@
+:root {
+    --bg-color: #0F0F0F;
+    --sec-bg-color: #232D3F;
+    --color-one: #005B41;
+    --color-two: #008170;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  .statsPage {
+    min-height: 100vh; /* Ensure the div covers the full height of the viewport */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color);
+    color: white;
+    text-align: center;
+    font-size: 2rem;
+  }
+  
