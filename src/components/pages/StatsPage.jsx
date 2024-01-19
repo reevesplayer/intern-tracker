@@ -87,16 +87,16 @@ export default function StatsPage() {
         }}
       >
         <TableHeader>
-          <TableColumn>JOB TITLE</TableColumn>
-          <TableColumn>COMPANY</TableColumn>
-          <TableColumn>STATUS</TableColumn>
-          <TableColumn>ACTIONS</TableColumn>
+          <TableColumn className="text-center text-xl py-4">JOB TITLE</TableColumn>
+          <TableColumn className="text-center text-xl py-4">COMPANY</TableColumn>
+          <TableColumn className="text-center text-x py-4l">STATUS</TableColumn>
+          <TableColumn className="text-center text-xl py-4">ACTIONS</TableColumn>
         </TableHeader>
         <TableBody items={items}>
           {(item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.jobTitle}</TableCell>
-              <TableCell>{item.jobCompany}</TableCell>
+            <TableRow key={item.id} className="text-center">
+              <TableCell className="text-lg">{item.jobTitle}</TableCell>
+              <TableCell className="text-lg">{item.jobCompany}</TableCell>
               <TableCell>
                 <span
                   style={{
@@ -104,7 +104,7 @@ export default function StatsPage() {
                     color: "white",
                     padding: "0.25rem 0.5rem",
                     borderRadius: "0.375rem",
-                    border: `1px solid ${getStatusColorBorder(item.jobStatus)}`,
+                    border: `1.5px solid ${getStatusColorBorder(item.jobStatus)}`,
                     boxShadow: `0 0 10px ${getStatusGlowColor(item.jobStatus)}`,
                   }}
                 >
@@ -112,16 +112,16 @@ export default function StatsPage() {
                 </span>
               </TableCell>
               <TableCell>
-                <button onClick={() => handleStatusChange(item.id, "Accepted")}>
-                  <SlCheck />
-                </button>
-                <button onClick={() => handleStatusChange(item.id, "Denied")}>
-                  <SlBan />
-                </button>
-                <button onClick={() => handleStatusChange(item.id, "Interview")}>
-                  <SlEarphonesAlt />
-                </button>
-              </TableCell>
+              <button onClick={() => handleStatusChange(item.id, "Accepted")} className="mr-2 text-lg">
+                <SlCheck />
+              </button>
+              <button onClick={() => handleStatusChange(item.id, "Denied")} className="mr-2 text-lg">
+                <SlBan />
+              </button>
+              <button onClick={() => handleStatusChange(item.id, "Interview")} className="mr-2 text-lg">
+                <SlEarphonesAlt />
+              </button>
+            </TableCell>
             </TableRow>
           )}
         </TableBody>
