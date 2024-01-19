@@ -6,7 +6,7 @@ import 'firebase/compat/database'; // Adjusted import statement
 function FormPage() {
     const [jobTitle, setJobTitle] = useState('');
     const [jobCompany, setJobCompany] = useState('');
-    const [jobStatus, setJobStatus] = useState('');
+    const [jobStatus] = useState('Applied');
 
     function jobTitleHandler(e) {
         setJobTitle(e.target.value)
@@ -16,12 +16,12 @@ function FormPage() {
         setJobCompany(e.target.value)
     }
 
-    function jobStatusHandler(e) {
-        setJobStatus(e.target.value)
-    }
-
     async function submitHandler(e) {
         e.preventDefault();
+
+        if (jobTitle.trim().length === 0 || jobCompany.trim().length === 0) {
+            return;
+        }
 
         const data = {
             jobTitle: jobTitle,
@@ -49,6 +49,12 @@ function FormPage() {
             const database = firebase.database();
             const response = await database.ref('data').push(data);
             console.log(response);
+
+            setJobTitle('');
+            setJobCompany('');
+            
+            console.log('Input Field Cleared')
+
         } catch (error) {
             console.error('Error:', error);
         }
@@ -56,22 +62,17 @@ function FormPage() {
 
     return (
         <div>
-            <div>
-                <h1>ADD JOB</h1>
-            </div>
-            <div>
             <form>
-            <div className="flex w-8/12 flex-wrap md:flex-nowrap gap-4">
-                <Input onChange={jobTitleHandler} type="text" label="Job Title" placeholder="Enter the job title" />
-                <Input onChange={jobCompanyHandler} type="text" label="Job Company" placeholder="Enter the company name" />
-                <Input onChange={jobStatusHandler} type="text" label="Status" placeholder="Accepted, Interview, Rejected" />
-                <Button onClick={submitHandler} color="primary">
-                SUBMIT
-                </Button>
+            <div className="flex flex-col gap-4 w-1/6 mx-auto items-center justify-center h-screen">
+            <h1 className="text-3xl font-bold">Add a New Job</h1>
+            <Input onChange={jobTitleHandler} isRequired type="text" label="Job Title" placeholder="Enter the job title" value={jobTitle} />
+            <Input onChange={jobCompanyHandler} isRequired type="text" label="Job Company" placeholder="Enter the company name" value={jobCompany} />
+            <Button onClick={submitHandler} radius="full" className="bg-gradient-to-tr from-blue-500 to-teal-500 text-white shadow-lg">
+                Button
+            </Button>
             </div>
-            </form>
 
-            </div>
+            </form>
         </div>
     );
 }

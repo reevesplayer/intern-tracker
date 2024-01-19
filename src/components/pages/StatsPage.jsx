@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination } from "@nextui-org/react";
-import { SlCheck, SlBan, SlEarphonesAlt } from "react-icons/sl";
+import { SlCheck, SlBan, SlEarphonesAlt, SlTrash } from "react-icons/sl";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 
@@ -54,6 +54,11 @@ export default function StatsPage() {
   const handleStatusChange = (itemId, newStatus) => {
     // Update item.jobStatus when a button is clicked
     dataRef.child(itemId).update({ jobStatus: newStatus });
+  };
+
+  const handleDeleteEntry = (itemId) => {
+    // Delete the entry when the delete icon is clicked
+    dataRef.child(itemId).remove();
   };
 
   const pages = Math.ceil(dataFromFirebase.length / rowsPerPage);
@@ -112,15 +117,18 @@ export default function StatsPage() {
                 </span>
               </TableCell>
               <TableCell>
-              <button onClick={() => handleStatusChange(item.id, "Accepted")} className="mr-2 text-lg">
+              <button onClick={() => handleStatusChange(item.id, "Accepted")} className="ease-in-out duration-75 mr-3 text-lg hover:text-green-600">
                 <SlCheck />
               </button>
-              <button onClick={() => handleStatusChange(item.id, "Denied")} className="mr-2 text-lg">
+              <button onClick={() => handleStatusChange(item.id, "Denied")} className="ease-in-out duration-75 mr-3 text-lg hover:text-red-600">
                 <SlBan />
               </button>
-              <button onClick={() => handleStatusChange(item.id, "Interview")} className="mr-2 text-lg">
+              <button onClick={() => handleStatusChange(item.id, "Interview")} className="ease-in-out duration-75 mr-3 text-lg hover:text-teal-600">
                 <SlEarphonesAlt />
               </button>
+              <button onClick={() => handleDeleteEntry(item.id)} className="ease-in-out duration-75 mr-3 text-lg hover:text-red-600">
+                  <SlTrash />
+                </button>
             </TableCell>
             </TableRow>
           )}
@@ -139,6 +147,8 @@ const getStatusColorBg = (status) => {
       return "rgb(153 27 27)";
     case "Interview":
       return "rgb(17 94 89)";
+    case "Applied":
+      return "rgb(180 83 9)";
     default:
       return "transparent";
   }
@@ -153,6 +163,8 @@ const getStatusGlowColor = (status) => {
       return "rgb(153 27 27)"; // Red
     case "Interview":
       return "rgb(17 94 89)"; // Yellow
+    case "Applied":
+      return "rgb(180 83 9)"; // Yellow
     default:
       return "transparent";
   }
@@ -166,6 +178,8 @@ const getStatusColorBorder = (status) => {
       return "rgb(220 38 38)";
     case "Interview":
       return "rgb(45 212 191)";
+    case "Applied":
+      return "rgb(251 191 36)";
     default:
       return "transparent";
   }
