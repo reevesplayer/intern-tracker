@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination } from "@nextui-org/react";
+import { SlCheck, SlBan, SlEarphonesAlt } from "react-icons/sl";
 import firebase from "firebase/compat/app";
 import "firebase/compat/database";
 
@@ -50,6 +51,11 @@ export default function StatsPage() {
     };
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
+  const handleStatusChange = (itemId, newStatus) => {
+    // Update item.jobStatus when a button is clicked
+    dataRef.child(itemId).update({ jobStatus: newStatus });
+  };
+
   const pages = Math.ceil(dataFromFirebase.length / rowsPerPage);
 
   const items = React.useMemo(() => {
@@ -58,41 +64,109 @@ export default function StatsPage() {
 
     return dataFromFirebase.slice(start, end);
   }, [page, dataFromFirebase]);
-
+  
   return (
-    <Table
-      aria-label="Example table with client side pagination"
-      bottomContent={
-        <div className="flex w-full justify-center">
-          <Pagination
-            isCompact
-            showControls
-            showShadow
-            color="secondary"
-            page={page}
-            total={pages}
-            onChange={(page) => setPage(page)}
-          />
-        </div>
-      }
-      classNames={{
-        wrapper: "min-h-[222px]",
-      }}
-    >
-      <TableHeader>
-        <TableColumn>JOB TITLE</TableColumn>
-        <TableColumn>COMPANY</TableColumn>
-        <TableColumn>STATUS</TableColumn>
-      </TableHeader>
-      <TableBody items={items}>
-        {(item) => (
-          <TableRow key={item.id}>
-            <TableCell>{item.jobTitle}</TableCell>
-            <TableCell>{item.jobCompany}</TableCell>
-            <TableCell>{item.jobStatus}</TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <div className="w-3/4 mx-auto flex items-center justify-center h-screen">
+      <Table
+        aria-label="Example table with client side pagination"
+        bottomContent={
+          <div className="flex w-full justify-center">
+            <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="secondary"
+              page={page}
+              total={pages}
+              onChange={(page) => setPage(page)}
+            />
+          </div>
+        }
+        classNames={{
+          wrapper: "min-h-[222px]",
+        }}
+      >
+        <TableHeader>
+          <TableColumn>JOB TITLE</TableColumn>
+          <TableColumn>COMPANY</TableColumn>
+          <TableColumn>STATUS</TableColumn>
+          <TableColumn>ACTIONS</TableColumn>
+        </TableHeader>
+        <TableBody items={items}>
+          {(item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.jobTitle}</TableCell>
+              <TableCell>{item.jobCompany}</TableCell>
+              <TableCell>
+                <span
+                  style={{
+                    backgroundColor: getStatusColorBg(item.jobStatus),
+                    color: "white",
+                    padding: "0.25rem 0.5rem",
+                    borderRadius: "0.375rem",
+                    border: `1px solid ${getStatusColorBorder(item.jobStatus)}`,
+                    boxShadow: `0 0 10px ${getStatusGlowColor(item.jobStatus)}`,
+                  }}
+                >
+                  {item.jobStatus}
+                </span>
+              </TableCell>
+              <TableCell>
+                <button onClick={() => handleStatusChange(item.id, "Accepted")}>
+                  <SlCheck />
+                </button>
+                <button onClick={() => handleStatusChange(item.id, "Denied")}>
+                  <SlBan />
+                </button>
+                <button onClick={() => handleStatusChange(item.id, "Interview")}>
+                  <SlEarphonesAlt />
+                </button>
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
+}
+
+// Helper function to determine background color based on status
+const getStatusColorBg = (status) => {
+  switch (status) {
+    case "Accepted":
+      return "rgb(22 101 52)";
+    case "Denied":
+      return "rgb(153 27 27)";
+    case "Interview":
+      return "rgb(17 94 89)";
+    default:
+      return "transparent";
+  }
+};
+
+// Helper function to determine glow color based on status
+const getStatusGlowColor = (status) => {
+  switch (status) {
+    case "Accepted":
+      return "rgb(22 101 52)"; // Green
+    case "Denied":
+      return "rgb(153 27 27)"; // Red
+    case "Interview":
+      return "rgb(17 94 89)"; // Yellow
+    default:
+      return "transparent";
+  }
+};
+
+const getStatusColorBorder = (status) => {
+  switch (status) {
+    case "Accepted":
+      return "rgb(34 197 94)";
+    case "Denied":
+      return "rgb(220 38 38)";
+    case "Interview":
+      return "rgb(45 212 191)";
+    default:
+      return "transparent";
+  }
 }
