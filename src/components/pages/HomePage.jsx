@@ -2,13 +2,13 @@ import React from 'react';
 
 const HomePage = () => {
   return (
-    <div className='homePage bg-grey text-slate-50 text-center text-2xl'>
+    <div className='w-11/12 flex flex-col gap-4 sm:w-5/6 mx-auto items-center justify-center h-screen'>
       <header>
-        <h1>Intern Application Tracker</h1>
+        <h1 className='text-3xl sm:text-6xl text-center'>Intern Application Tracker</h1>
       </header>
-      <main>
-        <p>Using this web application, you can track your current internship job applications and edit thair status accordingly.</p>
-      </main>
+      <div className='text-xl text-center'>
+        <p>Using this web application, you can track your current internship job applications and edit their status accordingly.</p>
+      </div>
     </div>
   );
 }

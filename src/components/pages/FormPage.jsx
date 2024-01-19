@@ -63,12 +63,12 @@ function FormPage() {
     return (
         <div>
             <form>
-            <div className="flex flex-col gap-4 w-1/6 mx-auto items-center justify-center h-screen">
+            <div className="w-11/12 flex flex-col gap-4 sm:w-1/6 mx-auto items-center justify-center h-screen">
             <h1 className="text-3xl font-bold">Add a New Job</h1>
             <Input onChange={jobTitleHandler} isRequired type="text" label="Job Title" placeholder="Enter the job title" value={jobTitle} />
             <Input onChange={jobCompanyHandler} isRequired type="text" label="Job Company" placeholder="Enter the company name" value={jobCompany} />
             <Button onClick={submitHandler} radius="full" className="bg-gradient-to-tr from-blue-500 to-teal-500 text-white shadow-lg">
-                Button
+                Add Job
             </Button>
             </div>
 

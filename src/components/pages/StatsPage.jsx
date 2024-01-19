@@ -30,26 +30,33 @@ export default function StatsPage() {
     const fetchDataFromFirebase = () => {
       dataRef.on("value", (snapshot) => {
         const data = snapshot.val();
-
-        // Convert data to an array
-        const dataArray = Object.entries(data).map(([id, entry]) => ({
-          id,
-          jobTitle: entry.jobTitle,
-          jobCompany: entry.jobCompany,
-          jobStatus: entry.jobStatus,
-        }));
-
-        setDataFromFirebase(dataArray);
+  
+        // Check if data is not null or undefined
+        if (data) {
+          // Convert data to an array
+          const dataArray = Object.entries(data).map(([id, entry]) => ({
+            id,
+            jobTitle: entry.jobTitle,
+            jobCompany: entry.jobCompany,
+            jobStatus: entry.jobStatus,
+          }));
+  
+          setDataFromFirebase(dataArray);
+        } else {
+          // If data is null or undefined, set an empty array
+          setDataFromFirebase([]);
+        }
       });
     };
-
+  
     fetchDataFromFirebase();
-
+  
     // Cleanup the listener when the component unmounts
     return () => {
       dataRef.off("value");
     };
   }, []); // Empty dependency array ensures the effect runs only once on mount
+  
 
   const handleStatusChange = (itemId, newStatus) => {
     // Update item.jobStatus when a button is clicked
@@ -71,7 +78,7 @@ export default function StatsPage() {
   }, [page, dataFromFirebase]);
   
   return (
-    <div className="w-3/4 mx-auto flex items-center justify-center h-screen">
+    <div className="flex w-11/12 sm:w-1/2 mx-auto items-center justify-center h-screen">
       <Table
         aria-label="Example table with client side pagination"
         bottomContent={
@@ -92,10 +99,10 @@ export default function StatsPage() {
         }}
       >
         <TableHeader>
-          <TableColumn className="text-center text-xl py-4">JOB TITLE</TableColumn>
-          <TableColumn className="text-center text-xl py-4">COMPANY</TableColumn>
-          <TableColumn className="text-center text-x py-4l">STATUS</TableColumn>
-          <TableColumn className="text-center text-xl py-4">ACTIONS</TableColumn>
+          <TableColumn className="text-center sm:text-xl sm:py-4">JOB TITLE</TableColumn>
+          <TableColumn className="text-center sm:text-xl sm:py-4">COMPANY</TableColumn>
+          <TableColumn className="text-center sm:text-xl  sm:py-4l">STATUS</TableColumn>
+          <TableColumn className="text-center sm:text-xl sm:py-4">ACTIONS</TableColumn>
         </TableHeader>
         <TableBody items={items}>
           {(item) => (
